@@ -1,2 +1,3 @@
-# kaomel
-An extensible and snappy kaomoji picker for Emacs.
+# Kaomel
+
+A snappy kaomoji picker for Emacs.
