@@ -27,8 +27,8 @@ A snappy kaomoji picker for Emacs.
 ```emacs-lisp
 (straight-use-package
  '(kaomel :host github :repo "gicrisf/kaomel"
-   :files (:defaults "*.el" "backend" "stylesheets")
-   :includes helm))
+   :files ("*.el")
+   :includes (helm)))
 ```
 
 ### Install with use-package
@@ -53,6 +53,12 @@ If you're on Doom Emacs like me, you can install with the `package!` macro:
 - Press `RET` on the desired kaomoji to insert it into your buffer at the current cursor position.
 
 Similarly, run `M-x kaomel-to-clipboard` to copy the selected kaomoji to the system clipboard.
+
+## TODOs
+- [ ] Easier selection for the most used kaomojis;
+- [ ] Better tagging system;
+- [ ] Finer helm configuration;
+- [ ] More kaomojis!
 
 ## License
 `kaomel` is licensed under the GPL3 license, see the `LICENSE` file for more information.
