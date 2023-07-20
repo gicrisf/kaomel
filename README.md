@@ -8,7 +8,7 @@ A snappy kaomoji picker for Emacs.
 `kaomel` is an Emacs package that allows you to easily insert kaomojis into your buffer using Helm. With a collection of almost 1000 kaomojis to choose from, you can quickly find the perfect expression to enhance your messages and documents.
 
 ## Features
-- Interactive Helm interface for selecting kaomojis.
+- Interactive interface for selecting kaomojis.
 - Insert selected kaomoji at the current cursor position.
 - Copy selected kaomoji to the system clipboard.
 
@@ -54,11 +54,21 @@ If you're on Doom Emacs like me, you can install with the `package!` macro:
 
 Similarly, run `M-x kaomel-to-clipboard` to copy the selected kaomoji to the system clipboard.
 
+### Configuration
+By default, `kaomel` uses `completing-read` for the interactive selection interface.
+However, if you prefer a different interface, you can customize the option `kaomel-helm` to use Helm. Just be sure of having `helm` installed and set this variable in the config:
+
+```emacs-lisp
+(setq kaomel-helm t)
+```
+
 ## TODOs
 - [ ] Easier selection for the most used kaomojis;
 - [ ] Better tagging system;
-- [ ] Finer helm configuration;
+- [x] Finer helm configuration;
 - [ ] More kaomojis!
+- [x] Vertico support
+- [ ] Kana transliteration
 
 ## License
 `kaomel` is licensed under the GPL3 license, see the `LICENSE` file for more information.
