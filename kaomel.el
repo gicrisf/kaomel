@@ -5,11 +5,11 @@
 ;; Author: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Maintainer: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Created: luglio 19, 2023
-;; Modified: luglio 20, 2023
-;; Version: 0.0.2
+;; Modified: luglio 27, 2023
+;; Version: 0.0.3
 ;; Keywords: convenience extensions faces tools
 ;; Homepage: https://github.com/gicrisf/kaomel
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "27.1"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -19,7 +19,7 @@
 ;;
 ;;; Code:
 
-(require 'helm-core)
+;; (require 'helm-core)
 (require 'json)
 
 (defgroup kaomel nil
@@ -62,19 +62,6 @@ Then, it returns them as a parsed object."
                     (json-read)))))
     parsed))
 
-(defun kaomel--build-general-seq ()
-  "Build a generic sequence of kaomojis."
-(let ((agnostic-kaomoji-seq '())
-      (parsed-json-vec (kaomel--retrieve-kaomojis-from-path kaomel-path)))
-  (mapc (lambda (kaomoji-tagged-cluster)
-          (let ((tag (gethash "tag" kaomoji-tagged-cluster))
-                (yan (gethash "yan" kaomoji-tagged-cluster)))
-            (setq agnostic-kaomoji-seq
-                  (append (mapcar (lambda (moji) (cons tag moji)) yan)
-                          agnostic-kaomoji-seq))))
-        parsed-json-vec)
-  agnostic-kaomoji-seq))
-
 (defun kaomel--get ()
   "Prompt the user to select a kaomoji using 'completing-read'."
   (let ((completions (kaomel--get-candidates)))
@@ -111,6 +98,45 @@ Then, it returns them as a parsed object."
   (interactive)
   (kill-new (if kaomel-helm (kaomel--get-through-helm)
             (kaomel--get))))
+
+(defcustom kaomel-tag-langs '("en" "hepburn")
+  "Preferred languages in showed tags;
+You can choose between:
+- Original (orig)
+- Hiragana (hira)
+- Katakana (kana)
+- English (en)
+- Italian (it)."
+  :group 'kaomel
+  :type 'list)
+
+(defun kaomel--build-general-seq ()
+  "Build a generic sequence of kaomojis."
+  (let ((agnostic-kaomoji-seq '())
+        (parsed-json-vec (kaomel--retrieve-kaomojis-from-path kaomel-path)))
+    (mapc (lambda (kaomoji-tagged-cluster)
+            (let ((tag (mapconcat
+                        'identity
+                        (delete-dups
+                         (flatten-tree
+                          (mapcar
+                           (lambda (el-tag)
+                             (mapcar
+                              (lambda (lang)
+                                (let ((word (gethash lang el-tag)))
+                                  (when (not (string-match-p "^[[:space:]]*$" word))
+                                    (car (split-string
+                                          (string-trim
+                                           (replace-regexp-in-string "[[:nonascii:]]" "" word)))))))
+                              kaomel-tag-langs))
+                           (gethash "tag" kaomoji-tagged-cluster))))
+                        " "))
+                  (yan (gethash "yan" kaomoji-tagged-cluster)))
+              (setq agnostic-kaomoji-seq
+                    (append (mapcar (lambda (moji) (cons tag moji)) yan)
+                            agnostic-kaomoji-seq))))
+          parsed-json-vec)
+    agnostic-kaomoji-seq))
 
 (provide 'kaomel)
 ;;; kaomel.el ends here
