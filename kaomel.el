@@ -5,8 +5,8 @@
 ;; Author: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Maintainer: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Created: luglio 19, 2023
-;; Modified: luglio 28, 2023
-;; Version: 0.0.5
+;; Modified: luglio 29, 2023
+;; Version: 0.0.6
 ;; Keywords: convenience extensions faces tools
 ;; Homepage: https://github.com/gicrisf/kaomel
 ;; Package-Requires: ((emacs "27.1"))
@@ -19,7 +19,6 @@
 ;;
 ;;; Code:
 
-;; (require 'helm-core)
 (require 'json)
 
 (defgroup kaomel nil
@@ -49,7 +48,7 @@ and 'completing-read' if it is not."
 (defvar kaomel--getter
   (if kaomel-avoid-helm
       #'kaomel--get-through-cr
-    (if (locate-library "helm-core")
+    (if (require 'helm-core nil t)
         #'kaomel--get-through-helm
       #'kaomel--get-through-cr))
   "The getter function actually called.")
@@ -207,6 +206,13 @@ Then, it returns them as a parsed object."
     (cdr (assoc (completing-read
                  (concat kaomel-prompt " ") completions)
                 completions))))
+
+(defun kaomel--get-through-helm ()
+  "Prompt the user to select a kaomoji using Helm."
+  (helm :sources
+        (helm-build-sync-source kaomel-prompt
+          :candidates (kaomel--get-candidates)
+          :candidate-number-limit kaomel-candidate-number-limit)))
 
 (provide 'kaomel)
 ;;; kaomel.el ends here
