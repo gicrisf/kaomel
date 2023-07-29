@@ -6,7 +6,7 @@
 ;; Maintainer: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Created: luglio 19, 2023
 ;; Modified: luglio 28, 2023
-;; Version: 0.0.4
+;; Version: 0.0.5
 ;; Keywords: convenience extensions faces tools
 ;; Homepage: https://github.com/gicrisf/kaomel
 ;; Package-Requires: ((emacs "27.1"))
@@ -88,7 +88,7 @@ Useful to make the tag strings shorter when you choose many languages."
   :group 'kaomel
   :type 'boolean)
 
-(defcustom kaomel-tag-val-separator "=>"
+(defcustom kaomel-tag-val-separator " "
   "Separator that is put between the tags and the value."
   :group 'kaomel
   :type 'string)
@@ -102,7 +102,7 @@ Useful to make the tag strings shorter when you choose many languages."
   "The prompt line displayed when prompting the user to pick a Kaomoji.
 
 Example usage:
-(setq kaomel-prompt \"Select a Kaomoji:\")
+setq kaomel-prompt \"Select a Kaomoji:\"
 
 Changing the value of this variable will update the prompt line in all relevant
 interactions within the `kaomel` package."
@@ -120,48 +120,74 @@ Then, it returns them as a parsed object."
                     (json-read)))))
     parsed))
 
+(defun kaomel--normalize-widths (max-width units)
+  "Add spaces to UNITS'tag strings to align them to the one with MAX-WIDTH."
+  (mapcar
+   (lambda (el)
+     (let* ((tag (car el))
+            (delta-width (- max-width (string-width tag)))
+            (tag (if (> delta-width 0)
+                     (concat
+                      tag
+                      (mapconcat #'identity
+                                 (make-list delta-width " ") ""))
+                   tag)))
+       (cons tag (cdr el))))
+   units))
+
+(defun kaomel--tag-cluster-to-filtered-string (tag-cluster)
+  "Filter and assemble a string from a TAG-CLUSTER following the options."
+  (mapconcat
+   'identity
+   ;; no duplicated elements
+   (delete-dups
+    ;; no nil elements
+    (flatten-tree
+     (mapcar
+      (lambda (el-tag)
+        ;; only elements from the chosen language
+        (mapcar
+         (lambda (lang)
+           (let ((word (gethash lang el-tag)))
+             ;; only non-white elements
+             (when (not (string-match-p "^[[:space:]]*$" word))
+               (let* ((filtered-word
+                       (if kaomel-only-ascii-tags
+                           ;; only ascii characters (filter out asian words)
+                           (replace-regexp-in-string "[[:nonascii:]]" "" word)
+                         word))
+                      ;; no white characters around the words
+                      (filtered-word (string-trim filtered-word))
+                      (filtered-word
+                       (if kaomel-heavy-trim-tags
+                           ;; only the first words of every translation
+                           (car (split-string filtered-word))
+                         filtered-word)))
+                 filtered-word))))
+         ;; list of languages
+         kaomel-tag-langs))
+      (gethash "tag" tag-cluster))))
+   kaomel-tag-tag-separator))
+
 (defun kaomel--build-general-seq ()
   "Build a generic sequence of kaomojis."
   (let ((agnostic-kaomoji-seq '())
+        (max-length 0)
         (parsed-json-vec (kaomel--retrieve-kaomojis-from-path kaomel-path)))
-    (mapc (lambda (kaomoji-tagged-cluster)
-            (let ((tag (mapconcat
-                        'identity
-                        ;; no duplicated elements
-                        (delete-dups
-                         ;; no nil elements
-                         (flatten-tree
-                          (mapcar
-                           (lambda (el-tag)
-                             ;; only elements from the chosen language
-                             (mapcar
-                              (lambda (lang)
-                                (let ((word (gethash lang el-tag)))
-                                  ;; only non-white elements
-                                  (when (not (string-match-p "^[[:space:]]*$" word))
-                                   (let* ((filtered-word
-                                           (if kaomel-only-ascii-tags
-                                               ;; only ascii characters (filter out asian words)
-                                               (replace-regexp-in-string "[[:nonascii:]]" "" word)
-                                             word))
-                                          ;; no white characters around the words
-                                          (filtered-word (string-trim filtered-word))
-                                          (filtered-word
-                                           (if kaomel-heavy-trim-tags
-                                               ;; only the first words of every translation
-                                               (car (split-string filtered-word))
-                                             filtered-word)))
-                                     filtered-word))))
-                              ;; list of languages
-                              kaomel-tag-langs))
-                           (gethash "tag" kaomoji-tagged-cluster))))
-                        kaomel-tag-tag-separator))
-                  (yan (gethash "yan" kaomoji-tagged-cluster)))
+    (mapc (lambda (tag-cluster)
+            (let ((tag (kaomel--tag-cluster-to-filtered-string tag-cluster))
+                  (yan (gethash "yan" tag-cluster)))
+              ;; keep in memory the max lengths reached
+              (let ((this-length (length tag)))
+                (when (> this-length max-length)
+                  (setq max-length this-length)))
+              ;; update the sequence
               (setq agnostic-kaomoji-seq
                     (append (mapcar (lambda (moji) (cons tag moji)) yan)
                             agnostic-kaomoji-seq))))
           parsed-json-vec)
-    agnostic-kaomoji-seq))
+    (kaomel--normalize-widths
+     max-length agnostic-kaomoji-seq)))
 
 (defun kaomel--get-candidates ()
   "Get candidates as alist.
@@ -181,10 +207,6 @@ Then, it returns them as a parsed object."
     (cdr (assoc (completing-read
                  (concat kaomel-prompt " ") completions)
                 completions))))
-
-
-
-
 
 (provide 'kaomel)
 ;;; kaomel.el ends here
