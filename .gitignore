@@ -1,3 +1,16 @@
-# Added automatically by ‘eldev init’.
+# Added automatically by 'eldev init'.
 /.eldev
 /Eldev-local
+
+# Emacs package generated files
+*-autoloads.el
+*.elc
+
+# Emacs temporary files
+*~
+\#*\#
+.\#*
+.DS_Store
+
+# Test coverage files
+coverage/

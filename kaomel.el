@@ -37,11 +37,11 @@
   :type 'string)
 
 (defcustom kaomel-avoid-helm nil
-"Use 'completing-read' even if a functional Helm installation is present.
+"Use \\='completing-read\\=' even if a functional Helm installation is present.
 Normally, Helm users prefer using Helm for all tasks, but a user might have
 both completion systems and want to specify which one to use with Kaomel.
 The default value is NIL, which means we use Helm if it is available
-and 'completing-read' if it is not."
+and \\='completing-read\\=' if it is not."
   :group 'kaomel
   :type 'boolean)
 
@@ -107,6 +107,12 @@ Changing the value of this variable will update the prompt line in all relevant
 interactions within the `kaomel` package."
   :group 'kaomel
   :type 'string)
+
+(defcustom kaomel-candidate-number-limit nil
+  "Maximum number of candidates to display in Helm interface.
+If nil, no limit is applied (show all candidates)."
+  :group 'kaomel
+  :type '(choice (const nil) integer))
 
 (defun kaomel--retrieve-kaomojis-from-path (path)
   "Retrieve kaomojis stored as json in the specified PATH.
@@ -201,7 +207,7 @@ Then, it returns them as a parsed object."
           (kaomel--build-general-seq)))
 
 (defun kaomel--get-through-cr ()
-  "Prompt the user to select a kaomoji using 'completing-read'."
+  "Prompt the user to select a kaomoji using \\='completing-read\\='."
   (let ((completions (kaomel--get-candidates)))
     (cdr (assoc (completing-read
                  (concat kaomel-prompt " ") completions)

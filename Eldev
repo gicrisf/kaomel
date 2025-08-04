@@ -4,3 +4,6 @@
 ;(eldev-use-package-archive 'gnu-elpa)
 ;(eldev-use-package-archive 'nongnu-elpa)
 (eldev-use-package-archive 'melpa)
+
+;; Development dependencies
+(eldev-add-extra-dependencies 'lint 'elisp-lint)
