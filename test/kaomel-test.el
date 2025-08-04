@@ -18,5 +18,55 @@
     ;; Each entry should be a hash table
     (should (hash-table-p (aref parsed-data 0)))))
 
+(ert-deftest kaomel-test-tag-filtering-basic ()
+  "Test basic tag filtering functionality."
+  ;; Create a mock tag cluster similar to the JSON structure
+  (let* ((mock-tag-cluster 
+          (let ((ht (make-hash-table :test 'equal)))
+            (puthash "tag" 
+                     (vector
+                      (let ((tag-ht (make-hash-table :test 'equal)))
+                        (puthash "orig" "laugh" tag-ht)
+                        (puthash "en" "laugh" tag-ht)
+                        (puthash "it" "ridere" tag-ht)
+                        tag-ht)
+                      (let ((tag-ht (make-hash-table :test 'equal)))
+                        (puthash "orig" "笑" tag-ht)
+                        (puthash "en" "smile" tag-ht)
+                        (puthash "it" "sorriso" tag-ht)
+                        tag-ht))
+                     ht)
+            ht))
+         ;; Test with default language preferences
+         (kaomel-tag-langs '("orig" "en"))
+         (result (kaomel--tag-cluster-to-filtered-string mock-tag-cluster)))
+    ;; Should return a string
+    (should (stringp result))
+    ;; Should contain expected tags
+    (should (string-match-p "laugh" result))
+    (should (string-match-p "笑" result))
+    (should (string-match-p "smile" result))))
+
+(ert-deftest kaomel-test-tag-filtering-ascii-only ()
+  "Test ASCII-only tag filtering."
+  (let* ((mock-tag-cluster 
+          (let ((ht (make-hash-table :test 'equal)))
+            (puthash "tag" 
+                     (vector
+                      (let ((tag-ht (make-hash-table :test 'equal)))
+                        (puthash "orig" "笑い" tag-ht)  ; Japanese characters
+                        (puthash "en" "laugh" tag-ht)   ; ASCII
+                        tag-ht))
+                     ht)
+            ht))
+         ;; Enable ASCII-only filtering
+         (kaomel-only-ascii-tags t)
+         (kaomel-tag-langs '("orig" "en"))
+         (result (kaomel--tag-cluster-to-filtered-string mock-tag-cluster)))
+    ;; Should contain ASCII tags
+    (should (string-match-p "laugh" result))
+    ;; Should NOT contain Japanese characters (filtered out)
+    (should-not (string-match-p "笑" result))))
+
 (provide 'kaomel-test)
 ;;; kaomel-test.el ends here
