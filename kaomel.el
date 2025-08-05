@@ -1,4 +1,4 @@
-;;; kaomel.el --- A snappy kaomoji picker for Emacs -*- lexical-binding: t; -*-
+;;; kaomel.el --- A snappy kaomoji picker -*- lexical-binding: t; -*-
 ;;
 ;; (ɔ) Copyleft 2023 Giovanni Crisalfi (gicrisf)
 ;;
@@ -37,11 +37,11 @@
   :type 'string)
 
 (defcustom kaomel-avoid-helm nil
-"Use \\='completing-read\\=' even if a functional Helm installation is present.
-Normally, Helm users prefer using Helm for all tasks, but a user might have
-both completion systems and want to specify which one to use with Kaomel.
-The default value is NIL, which means we use Helm if it is available
-and \\='completing-read\\=' if it is not."
+"Use \\='completing-read\\=' even if a Helm installation is present.
+Normally, Helm users prefer using Helm for all tasks, but a user might
+have both completion systems and want to specify which one to use with
+Kaomel.  The default value is NIL, which means we use Helm if it is
+available and \\='completing-read\\=' if it is not."
   :group 'kaomel
   :type 'boolean)
 
@@ -83,7 +83,8 @@ You can choose between:
 
 (defcustom kaomel-heavy-trim-tags nil
   "If t, kaomel shows only the first word for every tag token.
-Useful to make the tag strings shorter when you choose many languages."
+Useful to make the tag strings shorter when you choose many
+languages."
   :group 'kaomel
   :type 'boolean)
 
@@ -98,13 +99,13 @@ Useful to make the tag strings shorter when you choose many languages."
   :type 'string)
 
 (defcustom kaomel-prompt "Pick a Kaomoji:"
-  "The prompt line displayed when prompting the user to pick a Kaomoji.
+  "Displayed when prompting the user to pick a Kaomoji.
 
 Example usage:
-setq kaomel-prompt \"Select a Kaomoji:\"
+\\(setq kaomel-prompt \\\"Select a Kaomoji:\\\"\\)
 
-Changing the value of this variable will update the prompt line in all relevant
-interactions within the `kaomel` package."
+Changing the value of this variable will update the prompt line in all
+relevant interactions within the `kaomel` package."
   :group 'kaomel
   :type 'string)
 
