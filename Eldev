@@ -7,3 +7,7 @@
 
 ;; Development dependencies
 (eldev-add-extra-dependencies 'lint 'elisp-lint)
+
+;; Configure elisp-lint for mixed indentation (standard Emacs Lisp style)
+(with-eval-after-load 'elisp-lint
+  (setq-default indent-tabs-mode nil))
