@@ -15,7 +15,7 @@ The package `kaomel` is an Emacs package that provides easy insertion of kaomoji
 - [x] Finer helm configuration;
 - [x] Vertico support
 - [x] Kana transliteration
-- [ ] Easier selection for the most used kaomojis;
+- [x] Embedded dataset as vectorized elisp for speed.
 
 ## Installation
 
@@ -88,19 +88,6 @@ By default, the package uses the completing-read interface. This means that it w
 
 ### Configuration
 This chapter provides documentation for several Emacs Lisp options available in the Kaomel package.
-
-#### Dataset
-
-Option: `kaomel-path`
-(type: string)
-
-If you want to edit the dataset (stored as =kaomoji.json= in the package's directory), you can! Just make a copy of that file wherever you want, make your edits, then, in your Emacs configuration file (e.g., ".emacs" or ".emacs.d/init.el"), add the following code:
-
-```emacs-lisp
-(setq kaomel-path "/path/to/kaomoji.json")
-```
-
-#### Selection
 
 Option: `kaomel-avoid-helm`
 (type: boolean, default value: nil)
