@@ -6,7 +6,7 @@
 ;; Maintainer: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Created: luglio 19, 2023
 ;; Modified: luglio 29, 2023
-;; Version: 0.1.0
+;; Version: 0.2.0
 ;; Keywords: convenience extensions faces tools
 ;; Homepage: https://github.com/gicrisf/kaomel
 ;; Package-Requires: ((emacs "27.1"))
@@ -32,7 +32,7 @@
 ;; completion frameworks:
 ;;   - Uses Helm interface when helm-core is available
 ;;   - Falls back to completing-read (works with Vertico, Ivy, etc.)
-;;   - Configurable via kaomel-avoid-helm to force completing-read
+;;   - Configurable via kaomel-force-completing-read to force completing-read
 ;;
 ;; Customization options include tag language preferences, filtering
 ;; settings, visual separators, and display formatting to tailor the
@@ -48,8 +48,8 @@
   :group 'comm)
 
 
-(defcustom kaomel-avoid-helm nil
-  "Use \\='completing-read\\=' even if Helm is present.
+(defcustom kaomel-force-completing-read nil
+  "Force use of \\='completing-read\\=' even if Helm is present.
 Normally, Helm users prefer using Helm for all tasks, but a user might
 have both completion systems and want to specify which one to use with
 Kaomel.  The default value is NIL, which means we use Helm if it is
@@ -58,18 +58,20 @@ available and \\='completing-read\\=' if it is not."
   :type 'boolean)
 
 (defvar kaomel--getter
-  (if kaomel-avoid-helm
+  (if kaomel-force-completing-read
       #'kaomel--get-through-cr
     (if (require 'helm-core nil t)
         #'kaomel--get-through-helm
       #'kaomel--get-through-cr))
   "The getter function actually called.")
 
+;;;###autoload
 (defun kaomel-insert ()
   "Pick your kaomoji and insert it in the buffer."
   (interactive)
   (insert (funcall kaomel--getter)))
 
+;;;###autoload
 (defun kaomel-to-clipboard ()
   "Pick your kaomoji and store it in your clipboard."
   (interactive)
