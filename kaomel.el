@@ -38,6 +38,9 @@
 ;; settings, visual separators, and display formatting to tailor the
 ;; picker experience to your workflow.
 ;;
+;; Ensure your Emacs font supports Unicode characters for proper
+;; kaomoji rendering.
+;;
 ;;; Code:
 
 (require 'kaomel-data)

@@ -107,6 +107,17 @@ The package automatically detects your completion framework:
 - **With Helm**: Automatically uses Helm interface when `helm-core` is available
 - **Force completing-read**: Set `kaomel-force-completing-read` to `t` to always use completing-read
 
+### Font Setup
+
+For proper kaomoji rendering, ensure your Emacs font supports Unicode characters.
+
+**In Doom Emacs:**
+
+```emacs-lisp
+:ui
+(emoji +unicode)  ;; <= uncomment this!
+```
+
 ### Configuration
 This chapter provides documentation for several Emacs Lisp options available in the Kaomel package.
 
