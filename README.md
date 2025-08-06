@@ -185,6 +185,10 @@ Example usage:
 
 Changing the value of `kaomel-prompt` will update the prompt line in all relevant interactions within the `kaomel` package.
 
+## Dataset
+
+The kaomoji dataset has been personally crafted by assembling multiple sources over time for personal use. The original tags have been translated and uniformized to provide better searchability across different languages, including Japanese (hiragana/katakana), English, and Italian variants.
+
 ## License
 `kaomel` is licensed under the GPL3 license, see the `LICENSE` file for more information.
 
