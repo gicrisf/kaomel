@@ -15,29 +15,41 @@
 ;;
 ;;; Commentary:
 ;;
-;;  Description
+;; Kaomel is an interactive kaomoji picker for Emacs that provides a
+;; convenient way to insert kaomojis into your
+;; buffers or copy them to the clipboard.
+;;
+;; The package includes a curated dataset of approximately 1000 kaomojis
+;; with multilingual tags in various languages including Japanese
+;; (hiragana/katakana), English, and Italian, with multiple romanization
+;; formats for enhanced searchability.
+;;
+;; Main commands:
+;;   M-x kaomel-insert      - Insert selected kaomoji at point
+;;   M-x kaomel-to-clipboard - Copy selected kaomoji to clipboard
+;;
+;; The package automatically detects and integrates with popular
+;; completion frameworks:
+;;   - Uses Helm interface when helm-core is available
+;;   - Falls back to completing-read (works with Vertico, Ivy, etc.)
+;;   - Configurable via kaomel-avoid-helm to force completing-read
+;;
+;; Customization options include tag language preferences, filtering
+;; settings, visual separators, and display formatting to tailor the
+;; picker experience to your workflow.
 ;;
 ;;; Code:
 
-(require 'json)
+(require 'kaomel-data)
 
 (defgroup kaomel nil
-  "A snappy kaomoji picker for Emacs."
+  "A snappy kaomoji picker."
   :prefix "kaomel-"
   :group 'comm)
 
-(defcustom kaomel-path (expand-file-name
-                        "kaomoji.json"
-                        (file-truename
-                         (if load-file-name
-                             (file-name-directory load-file-name)
-                           default-directory)))
-  "Variable to store the source of kaomojis."
-  :group 'kaomel
-  :type 'string)
 
 (defcustom kaomel-avoid-helm nil
-"Use \\='completing-read\\=' even if a Helm installation is present.
+  "Use \\='completing-read\\=' even if Helm is present.
 Normally, Helm users prefer using Helm for all tasks, but a user might
 have both completion systems and want to specify which one to use with
 Kaomel.  The default value is NIL, which means we use Helm if it is
@@ -62,8 +74,6 @@ available and \\='completing-read\\=' if it is not."
   "Pick your kaomoji and store it in your clipboard."
   (interactive)
   (kill-new (funcall kaomel--getter)))
-
-
 
 (defcustom kaomel-tag-langs '("orig" "hepburn" "en")
   "Preferred languages in showed tags;
@@ -115,19 +125,8 @@ If nil, no limit is applied (show all candidates)."
   :group 'kaomel
   :type '(choice (const nil) integer))
 
-(defun kaomel--retrieve-kaomojis-from-path (path)
-  "Retrieve kaomojis stored as json in the specified PATH.
-Then, it returns them as a parsed object."
-  (let ((parsed (with-temp-buffer
-                  (set-buffer-multibyte t)
-                  (insert-file-contents path)
-                  (goto-char (point-min))
-                  (let ((json-object-type 'hash-table))
-                    (json-read)))))
-    parsed))
-
 (defun kaomel--normalize-widths (max-width units)
-  "Add spaces to UNITS'tag strings to align them to the one with MAX-WIDTH."
+  "Pad UNITS'tag strings with spaces to match MAX-WIDTH."
   (mapcar
    (lambda (el)
      (let* ((tag (car el))
@@ -142,7 +141,7 @@ Then, it returns them as a parsed object."
    units))
 
 (defun kaomel--tag-cluster-to-filtered-string (tag-cluster)
-  "Filter and assemble a string from a TAG-CLUSTER following the options."
+  "Build string from TAG-CLUSTER based on options."
   (mapconcat
    'identity
    ;; no duplicated elements
@@ -159,14 +158,14 @@ Then, it returns them as a parsed object."
              (when (not (string-match-p "^[[:space:]]*$" word))
                (let* ((filtered-word
                        (if kaomel-only-ascii-tags
-                           ;; only ascii characters (filter out asian words)
+                           ;; only ascii (filter out asian words)
                            (replace-regexp-in-string "[[:nonascii:]]" "" word)
                          word))
                       ;; no white characters around the words
                       (filtered-word (string-trim filtered-word))
                       (filtered-word
                        (if kaomel-heavy-trim-tags
-                           ;; only the first words of every translation
+                           ;; only 1st words of each translation
                            (car (split-string filtered-word))
                          filtered-word)))
                  filtered-word))))
@@ -178,8 +177,7 @@ Then, it returns them as a parsed object."
 (defun kaomel--build-general-seq ()
   "Build a generic sequence of kaomojis."
   (let ((agnostic-kaomoji-seq '())
-        (max-length 0)
-        (parsed-json-vec (kaomel--retrieve-kaomojis-from-path kaomel-path)))
+        (max-length 0))
     (mapc (lambda (tag-cluster)
             (let ((tag (kaomel--tag-cluster-to-filtered-string tag-cluster))
                   (yan (gethash "yan" tag-cluster)))
@@ -191,7 +189,7 @@ Then, it returns them as a parsed object."
               (setq agnostic-kaomoji-seq
                     (append (mapcar (lambda (moji) (cons tag moji)) yan)
                             agnostic-kaomoji-seq))))
-          parsed-json-vec)
+          kaomel-data)
     (kaomel--normalize-widths
      max-length agnostic-kaomoji-seq)))
 
@@ -216,10 +214,15 @@ Then, it returns them as a parsed object."
 
 (defun kaomel--get-through-helm ()
   "Prompt the user to select a kaomoji using Helm."
-  (helm :sources
-        (helm-build-sync-source kaomel-prompt
-          :candidates (kaomel--get-candidates)
-          :candidate-number-limit kaomel-candidate-number-limit)))
+  (with-no-warnings
+    ;; Warning suppressed because I perform a runtime
+    ;; check on helm. This internal function should be
+    ;; called only if helm exists.
+    (helm :sources
+          (helm-build-sync-source
+           kaomel-prompt
+           :candidates (kaomel--get-candidates)
+           :candidate-number-limit kaomel-candidate-number-limit))))
 
 (provide 'kaomel)
 ;;; kaomel.el ends here
