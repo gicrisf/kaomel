@@ -8,21 +8,12 @@
 (require 'ert)
 (require 'kaomel)
 (require 'kaomel-data)
-
-(defun kaomel-test--retrieve-kaomojis-from-json (path)
-  "Test helper: Retrieve kaomojis from JSON file at PATH."
-  (require 'json)
-  (with-temp-buffer
-    (set-buffer-multibyte t)
-    (insert-file-contents path)
-    (goto-char (point-min))
-    (let ((json-object-type 'hash-table))
-      (json-read))))
+(require 'kaomel-utils)
 
 (ert-deftest kaomel-test-retrieve-kaomojis-from-path ()
   "Test that vectorized data matches JSON loading."
   (let* ((json-path (expand-file-name "kaomoji.json" default-directory))
-         (json-data (kaomel-test--retrieve-kaomojis-from-json json-path))
+         (json-data (kaomel-dev-retrieve-kaomojis-from-json json-path))
          (vectorized-data kaomel-data))
     ;; Both should be vectors
     (should (vectorp json-data))

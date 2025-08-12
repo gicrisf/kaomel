@@ -4,9 +4,9 @@
 ;;
 ;; Author: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
 ;; Maintainer: Giovanni Crisalfi <giovanni.crisalfi@protonmail.com>
-;; Created: luglio 19, 2023
-;; Modified: luglio 29, 2023
-;; Version: 0.2.0
+;; Created: 2023-07-19
+;; Modified: 2025-08-12
+;; Version: 1.0.0
 ;; Keywords: convenience extensions faces tools
 ;; Homepage: https://github.com/gicrisf/kaomel
 ;; Package-Requires: ((emacs "27.1"))
