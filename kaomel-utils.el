@@ -16,7 +16,7 @@
 ;; This is a development-only tool and is not shipped with the MELPA release.
 ;;
 ;; Usage:
-;;   M-x kaomel-dev-regenerate-data - Regenerate kaomel-data.el from JSON
+;;   Called programmatically to regenerate kaomel-data.el from JSON
 ;;
 ;; Functions:
 ;;   kaomel-dev-retrieve-kaomojis-from-json - Load JSON data from file
@@ -76,20 +76,6 @@ Returns a vector of hash tables representing the kaomoji data."
       (write-file output-path))
     
     (message "Generated kaomel-data.el with %d kaomoji entries" (length kaomoji-data))))
-
-(defun kaomel-dev-regenerate-data ()
-  "Regenerate kaomel-data.el from kaomel-data.json.
-Interactive function to regenerate the data file."
-  (interactive)
-  (let* ((default-directory (file-name-directory (or load-file-name buffer-file-name)))
-         (json-path (expand-file-name "kaomel-data.json" default-directory))
-         (output-path (expand-file-name "kaomel-data.el" default-directory)))
-    
-    (unless (file-exists-p json-path)
-      (error "JSON file not found: %s" json-path))
-    
-    (kaomel-dev--generate-data-file json-path output-path)
-    (message "Successfully regenerated kaomel-data.el")))
 
 (provide 'kaomel-utils)
 ;;; kaomel-utils.el ends here
