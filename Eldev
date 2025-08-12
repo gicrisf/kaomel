@@ -13,13 +13,13 @@
 (with-eval-after-load 'elisp-lint
   (setq-default indent-tabs-mode nil))
 
-;; Builder for generating kaomel-data.el from kaomoji.json
+;; Builder for generating kaomel-data.el from kaomel-data.json
 ;; Ignore the warning; it comes from targets that use macro syntax
 (eldev-defbuilder kaomel-data-generator (source target)
   :short-name     "data"
   :message        source-and-target
-  :source-files   "kaomoji.json"
-  :targets        ("kaomoji.json" -> "kaomel-data.el")
+  :source-files   "kaomel-data.json"
+  :targets        ("kaomel-data.json" -> "kaomel-data.el")
   :collect        ":default"
   :define-cleaner (eldev-cleaner-kaomel-data
                    "Delete generated kaomel-data.el file."
