@@ -8,14 +8,14 @@ A snappy kaomoji picker for Emacs.
 The package `kaomel` is an Emacs package that provides easy insertion of kaomojis into your buffer. With a collection of almost 1000 kaomojis to choose from, you can quickly find the perfect expression to enhance your messages and documents. It offers two different commands for copying the kaomojis to the clipboard or inserting them directly into the buffer.
 
 ## Features
-- [x] Interactive interface for selecting kaomojis.
-- [x] Insert selected kaomoji at the current cursor position.
-- [x] Copy selected kaomoji to the system clipboard.
-- [x] Better tagging system;
-- [x] Finer helm configuration;
+- [x] Interactive interface for selecting kaomojis
+- [x] Insert at the cursor position
+- [x] Copy to the clipboard
+- [x] Multilang tagging system
+- [x] Helm support 
 - [x] Vertico support
 - [x] Kana transliteration
-- [ ] Easier selection for the most used kaomojis;
+- [x] Dataset as vectorized elisp
 
 ## Installation
 
@@ -35,32 +35,31 @@ mv kaomel ~/.emacs.d/
 emacs ~/.emacs.d/init.el
 ```
 
-4. Require the library in your Emacs configuration file. Assuming that the repository has been moved to the path `~/.emacs.d/`:
+4. Add the package to your Emacs load path. Assuming that the repository has been moved to the path `~/.emacs.d/`:
 
 ```elisp
 (add-to-list 'load-path "~/.emacs.d/kaomel")
-(require 'kaomel)
 ```
 
 5. Save the configuration file, then restart Emacs, or reload it.
 
-Now, the package should be installed and loaded whenever you start Emacs.
+Now, the package commands will be available and will load automatically when first used.
 
 ### Install with use-package
 
-If you use `use-package`, you can follow the manual procedure and replace the text in the 4th step with these:
+If you use `use-package`, you can follow steps 1-3 of the manual procedure and replace steps 4-5 with:
 
 ```emacs-lisp
-(use-package kaomel
-    :load-path "~/.emacs.d/repo")
+(use-package kaomel :load-path "~/.emacs.d/kaomel")
 ```
 
-To install the package directly from the GitHub repository, you can simply write:
+Alternatively, you can skip all the previous steps entirely and install directly from the GitHub repository with:
 
 ```elisp
-(use-package romkan.el
-  :ensure gicrisf/romkan.el)
+(use-package kaomel :vc (:fetcher github :repo "gicrisf/kaomel"))
 ```
+
+This will automatically clone the repository and handle the installation for you.
 
 ### Install with Straight
 
@@ -70,45 +69,65 @@ To install the package directly from the GitHub repository, you can simply write
    :files ("*.el")))
 ```
 
+This will clone the repository and build the package using straight.
+
 ### Install on Doom Emacs
-If you're on Doom Emacs like me, you can install with the `package!` macro:
+For Doom Emacs users, add the following to your `packages.el` file:
 
 ```emacs-lisp
 (package! kaomel :recipe (:host github :repo "gicrisf/kaomel"))
 ```
 
 ## Usage
-- To use `kaomel`, simply run `M-x kaomel-insert` or bind it to a key combination of your choice.
-- Once the interface opens, you can navigate through the available kaomojis using the arrow keys or by typing search terms.
-- Press `RET` on the desired kaomoji to insert it into your buffer at the current cursor position.
 
-Similarly, run `M-x kaomel-to-clipboard` to copy the selected kaomoji to the system clipboard.
+### Basic Commands
 
-By default, the package uses the completing-read interface. This means that it will work with packages like Vertico, as shown in the screenshot. If you have Helm installed, it will use Helm instead. If you have Helm installed but still prefer to use completing-read, you can by simply setting a variable, like shown in the next paragraph.
+**Insert kaomoji at cursor:**
+```
+M-x kaomel-insert
+```
+
+**Copy kaomoji to clipboard:**
+```
+M-x kaomel-to-clipboard
+```
+
+### How to Select Kaomojis
+
+1. Run one of the commands above
+2. A completion interface will open showing available kaomojis with their tags
+3. Type to search/filter kaomojis by their tags or names
+4. Use arrow keys to navigate through the results
+5. Press `RET` (Enter) to select your desired kaomoji
+
+### Interface Compatibility
+
+The package automatically detects your completion framework:
+- **Default**: Uses `completing-read` (works with Vertico, Ivy, etc.)
+- **With Helm**: Automatically uses Helm interface when `helm-core` is available
+- **Force completing-read**: Set `kaomel-force-completing-read` to `t` to always use completing-read
+
+### Font Setup
+
+For proper kaomoji rendering, ensure your Emacs font supports Unicode characters.
+
+**In Doom Emacs:**
+
+```emacs-lisp
+:ui
+(emoji +unicode)  ;; <= uncomment this!
+```
 
 ### Configuration
 This chapter provides documentation for several Emacs Lisp options available in the Kaomel package.
 
-#### Dataset
-
-Option: `kaomel-path`
-(type: string)
-
-If you want to edit the dataset (stored as =kaomoji.json= in the package's directory), you can! Just make a copy of that file wherever you want, make your edits, then, in your Emacs configuration file (e.g., ".emacs" or ".emacs.d/init.el"), add the following code:
-
-```emacs-lisp
-(setq kaomel-path "/path/to/kaomoji.json")
-```
-
-#### Selection
-
-Option: `kaomel-avoid-helm`
+Option: `kaomel-force-completing-read`
 (type: boolean, default value: nil)
 
 By default, `kaomel` uses `completing-read` for interactive selection. However, if you have Helm installed, it will use Helm instead. If you still want to use `completing-read` even with Helm installed, you can enforce this by setting a specific variable.
 
 ```emacs-lisp
-(setq kaomel-avoid-helm t)
+(setq kaomel-force-completing-read t)
 ```
 
 Option: `kaomel-tag-langs`
@@ -165,6 +184,10 @@ Example usage:
 ```
 
 Changing the value of `kaomel-prompt` will update the prompt line in all relevant interactions within the `kaomel` package.
+
+## Dataset
+
+The kaomoji dataset was originally based on [kaomoji-vscode](https://github.com/Coiven/kaomoji-vscode) but has been crafted for this package by assembling multiple sources over time for personal use. The original tags have been translated and uniformized to provide better searchability across different languages, including Japanese (hiragana/katakana), English, and Italian variants.
 
 ## License
 `kaomel` is licensed under the GPL3 license, see the `LICENSE` file for more information.
