@@ -8,14 +8,14 @@ A snappy kaomoji picker for Emacs.
 The package `kaomel` is an Emacs package that provides easy insertion of kaomojis into your buffer. With a collection of almost 1000 kaomojis to choose from, you can quickly find the perfect expression to enhance your messages and documents. It offers two different commands for copying the kaomojis to the clipboard or inserting them directly into the buffer.
 
 ## Features
-- [x] Interactive interface for selecting kaomojis.
-- [x] Insert selected kaomoji at the current cursor position.
-- [x] Copy selected kaomoji to the system clipboard.
-- [x] Better tagging system;
-- [x] Finer helm configuration;
+- [x] Interactive interface for selecting kaomojis
+- [x] Insert at the cursor position
+- [x] Copy to the clipboard
+- [x] Multilang tagging system
+- [x] Helm support 
 - [x] Vertico support
 - [x] Kana transliteration
-- [x] Embedded dataset as vectorized elisp for speed.
+- [x] Dataset as vectorized elisp
 
 ## Installation
 
