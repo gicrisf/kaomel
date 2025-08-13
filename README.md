@@ -56,7 +56,7 @@ If you use `use-package`, you can follow steps 1-3 of the manual procedure and r
 Alternatively, you can skip all the previous steps entirely and install directly from the GitHub repository with:
 
 ```elisp
-(use-package kaomel.el :vc gicrisf/kaomel.el)
+(use-package kaomel :vc (:fetcher github :repo "gicrisf/kaomel"))
 ```
 
 This will automatically clone the repository and handle the installation for you.
