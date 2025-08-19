@@ -13,6 +13,19 @@
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+;;
 ;;; Commentary:
 ;;
 ;; Kaomel is an interactive kaomoji picker for Emacs that provides a
@@ -89,7 +102,7 @@ You can choose between:
 - English (en)
 - Italian (it)."
   :group 'kaomel
-  :type 'list)
+  :type '(repeat string))
 
 (defcustom kaomel-only-ascii-tags nil
   "If t, kaomel filters out every non-ascii character from tags."
@@ -148,7 +161,7 @@ If nil, no limit is applied (show all candidates)."
 (defun kaomel--tag-cluster-to-filtered-string (tag-cluster)
   "Build string from TAG-CLUSTER based on options."
   (mapconcat
-   'identity
+   #'identity
    ;; no duplicated elements
    (delete-dups
     ;; no nil elements

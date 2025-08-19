@@ -8,6 +8,19 @@
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+;;
 ;;; Commentary:
 ;;
 ;; This file contains development utilities for the Kaomel package.
@@ -50,9 +63,21 @@ Returns a vector of hash tables representing the kaomoji data."
       (insert (format ";; Generated: %s\n" current-time))
       (insert ";; Keywords: convenience extensions faces tools\n")
       (insert ";; Homepage: https://github.com/gicrisf/kaomel\n")
-      (insert ";; Package-Requires: ((emacs \"27.1\"))\n")
       (insert ";;\n")
       (insert ";; This file is not part of GNU Emacs.\n")
+      (insert ";;\n")
+      (insert ";; This program is free software: you can redistribute it and/or modify\n")
+      (insert ";; it under the terms of the GNU General Public License as published by\n")
+      (insert ";; the Free Software Foundation, either version 3 of the License, or\n")
+      (insert ";; (at your option) any later version.\n")
+      (insert ";;\n")
+      (insert ";; This program is distributed in the hope that it will be useful,\n")
+      (insert ";; but WITHOUT ANY WARRANTY; without even the implied warranty of\n")
+      (insert ";; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n")
+      (insert ";; GNU General Public License for more details.\n")
+      (insert ";;\n")
+      (insert ";; You should have received a copy of the GNU General Public License\n")
+      (insert ";; along with this program.  If not, see <https://www.gnu.org/licenses/>.\n")
       (insert ";;\n")
       (insert ";;; Commentary:\n")
       (insert ";;\n")
