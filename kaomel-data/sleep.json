@@ -17,7 +17,7 @@
       "hepburn": "sui",
       "kunrei": "sui",
       "passport": "sui",
-      "en": "睡",
+      "en": "sleep",
       "it": "睡"
     },
     {
@@ -27,7 +27,7 @@
       "hepburn": "",
       "kunrei": "",
       "passport": "",
-      "en": "觉",
+      "en": "awake",
       "it": "觉"
     },
     {
@@ -37,7 +37,7 @@
       "hepburn": "kon",
       "kunrei": "kon",
       "passport": "kon",
-      "en": "困",
+      "en": "sleepy",
       "it": "困"
     },
     {
@@ -47,7 +47,7 @@
       "hepburn": "rui",
       "kunrei": "rui",
       "passport": "rui",
-      "en": "累",
+      "en": "tired",
       "it": "累"
     }
   ],
