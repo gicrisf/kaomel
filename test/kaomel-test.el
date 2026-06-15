@@ -12,8 +12,8 @@
 
 (ert-deftest kaomel-test-retrieve-kaomojis-from-path ()
   "Test that vectorized data matches JSON loading."
-  (let* ((json-path (expand-file-name "kaomel-data.json" default-directory))
-         (json-data (kaomel-dev-retrieve-kaomojis-from-json json-path))
+  (let* ((json-dir (expand-file-name "kaomel-data" default-directory))
+         (json-data (kaomel-dev-retrieve-kaomojis-from-dir json-dir))
          (vectorized-data kaomel-data))
     ;; Both should be vectors
     (should (vectorp json-data))
