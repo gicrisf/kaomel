@@ -189,8 +189,50 @@ Changing the value of `kaomel-prompt` will update the prompt line in all relevan
 
 The kaomoji dataset was originally based on [kaomoji-vscode](https://github.com/Coiven/kaomoji-vscode) but has been crafted for this package by assembling multiple sources over time for personal use. The original tags have been translated and uniformized to provide better searchability across different languages, including Japanese (hiragana/katakana), English, and Italian variants.
 
+### Structure
+
+Source data lives under `kaomel-data/`, with **one JSON file per entry**:
+
+- `tag` — array of tag objects, each providing the same word across several languages/romanizations. Recognized keys: `orig`, `hira`, `kana`, `hepburn`, `kunrei`, `passport`, `en`, `it`. A space `" "` is used as placeholder when a translation isn't available.
+- `yan` — array of the actual kaomoji strings that share these tags.
+
+Minimal example, `kaomel-data/wave.json`:
+
+```json
+{
+  "tag": [
+    {
+      "orig": "wave",
+      "en": "wave",
+      "it": "saluto"
+    }
+  ],
+  "yan": [
+    "( ´ ▽ ` )ﾉ",
+    "(/￣ー￣)/"
+  ]
+}
+```
+
+Filename convention: short, lowercase, hyphen-separated, ideally a single English word (`laugh.json`, `bye.json`, `ping-pong.json`).
+
+### Adding or editing entries
+
+To contribute a new kaomoji, drop a new JSON file into `kaomel-data/` — no existing files need to change. After editing, regenerate the compiled data:
+
+```sh
+eldev build       # rebuilds kaomel-data.el from kaomel-data/*.json
+eldev test        # sanity-check the loader against the regenerated data
+```
+
+The generated `kaomel-data.el` is committed alongside source files so end users can install without an Eldev toolchain.
+
+### Customizing
+
+Nothing in the runtime code references individual entries by name (the build just scans `kaomel-data/` for any `*.json`). Fork the repo, add or remove files as you like, run `eldev build`, and use your fork as the package source. Same flow for slimming down or for keeping private kaomojis.
+
 ## License
 `kaomel` is licensed under the GPL3 license, see the `LICENSE` file for more information.
 
-## Bug Reporting and Contributions
-- Issues, suggestions, and pull requests are welcome on the GitHub repository: https://github.com/gicrisf/kaomel
+## Bug Reporting
+Issues and suggestions are welcome on the [GitHub repository](https://github.com/gicrisf/kaomel).
