@@ -18,7 +18,7 @@
       "kunrei": "",
       "passport": "",
       "en": "hidden",
-      "it": "隐"
+      "it": "nascosto"
     },
     {
       "orig": "藏",
@@ -28,7 +28,7 @@
       "kunrei": "kura",
       "passport": "kura",
       "en": "hide",
-      "it": "藏"
+      "it": "nascondere"
     },
     {
       "orig": "匿",
@@ -38,7 +38,7 @@
       "kunrei": "toku",
       "passport": "toku",
       "en": "conceal",
-      "it": "匿"
+      "it": "celare"
     },
     {
       "orig": "不",
@@ -48,7 +48,7 @@
       "kunrei": "fu",
       "passport": "fu",
       "en": "not",
-      "it": "不"
+      "it": "non"
     },
     {
       "orig": "见",
@@ -58,7 +58,7 @@
       "kunrei": "",
       "passport": "",
       "en": "see",
-      "it": "见"
+      "it": "vedere"
     },
     {
       "orig": "没了",

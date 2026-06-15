@@ -18,7 +18,7 @@
       "kunrei": "",
       "passport": "",
       "en": "fish",
-      "it": "鱼"
+      "it": "pesce"
     },
     {
       "orig": "水生",
@@ -38,7 +38,7 @@
       "kunrei": "umi",
       "passport": "umi",
       "en": "sea",
-      "it": "海"
+      "it": "mare"
     },
     {
       "orig": "货",
@@ -48,7 +48,7 @@
       "kunrei": "",
       "passport": "",
       "en": "goods",
-      "it": "货"
+      "it": "merce"
     }
   ],
   "yan": [

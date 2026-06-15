@@ -18,7 +18,7 @@
       "kunrei": "sui",
       "passport": "sui",
       "en": "sleep",
-      "it": "睡"
+      "it": "dormire"
     },
     {
       "orig": "觉",
@@ -28,7 +28,7 @@
       "kunrei": "",
       "passport": "",
       "en": "awake",
-      "it": "觉"
+      "it": "sveglio"
     },
     {
       "orig": "困",
@@ -38,7 +38,7 @@
       "kunrei": "kon",
       "passport": "kon",
       "en": "sleepy",
-      "it": "困"
+      "it": "assonnato"
     },
     {
       "orig": "累",
@@ -48,7 +48,7 @@
       "kunrei": "rui",
       "passport": "rui",
       "en": "tired",
-      "it": "累"
+      "it": "stanco"
     }
   ],
   "yan": [

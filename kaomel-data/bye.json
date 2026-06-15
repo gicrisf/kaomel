@@ -28,7 +28,7 @@
       "kunrei": "hai",
       "passport": "hai",
       "en": "bye",
-      "it": "拜"
+      "it": "ciao"
     },
     {
       "orig": "拜",
@@ -38,7 +38,7 @@
       "kunrei": "hai",
       "passport": "hai",
       "en": "bye",
-      "it": "拜"
+      "it": "ciao"
     },
     {
       "orig": "再",
@@ -48,7 +48,7 @@
       "kunrei": "sai",
       "passport": "sai",
       "en": "again",
-      "it": "再"
+      "it": "di nuovo"
     },
     {
       "orig": "见",
@@ -58,7 +58,7 @@
       "kunrei": "",
       "passport": "",
       "en": "see",
-      "it": "见"
+      "it": "vedere"
     },
     {
       "orig": " goodbye ",
@@ -78,7 +78,7 @@
       "kunrei": "ou",
       "passport": "o",
       "en": "oh",
-      "it": "欧"
+      "it": "oh"
     },
     {
       "orig": "耶",
@@ -88,7 +88,7 @@
       "kunrei": "ya",
       "passport": "ya",
       "en": "yay",
-      "it": "耶"
+      "it": "evviva"
     },
     {
       "orig": "庆",
@@ -98,7 +98,7 @@
       "kunrei": "",
       "passport": "",
       "en": "celebrate",
-      "it": "庆"
+      "it": "festeggiare"
     },
     {
       "orig": "祝",
@@ -108,7 +108,7 @@
       "kunrei": "syuku",
       "passport": "shuku",
       "en": "wish",
-      "it": "祝"
+      "it": "augurare"
     },
     {
       "orig": "胜",
@@ -118,7 +118,7 @@
       "kunrei": "",
       "passport": "",
       "en": "victory",
-      "it": "胜"
+      "it": "vittoria"
     },
     {
       "orig": "利",
@@ -128,7 +128,7 @@
       "kunrei": "ri",
       "passport": "ri",
       "en": "triumph",
-      "it": "利"
+      "it": "trionfo"
     }
   ],
   "yan": [

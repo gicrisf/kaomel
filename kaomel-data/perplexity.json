@@ -38,7 +38,7 @@
       "kunrei": "kami",
       "passport": "kami",
       "en": "god",
-      "it": "神"
+      "it": "dio"
     },
     {
       "orig": "马",
@@ -48,7 +48,7 @@
       "kunrei": "",
       "passport": "",
       "en": "horse",
-      "it": "马"
+      "it": "cavallo"
     },
     {
       "orig": " shenma what ",
@@ -68,7 +68,7 @@
       "kunrei": "siru",
       "passport": "shiru",
       "en": "what",
-      "it": "什"
+      "it": "cosa"
     },
     {
       "orig": "么",
@@ -78,7 +78,7 @@
       "kunrei": "",
       "passport": "",
       "en": "what",
-      "it": "么"
+      "it": "cosa"
     }
   ],
   "yan": [

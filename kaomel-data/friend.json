@@ -38,7 +38,7 @@
       "kunrei": "",
       "passport": "",
       "en": "boudoir",
-      "it": "闺"
+      "it": "camera"
     },
     {
       "orig": "蜜",
@@ -48,7 +48,7 @@
       "kunrei": "mitu",
       "passport": "mitsu",
       "en": "honey",
-      "it": "蜜"
+      "it": "miele"
     },
     {
       "orig": "亲",
@@ -58,7 +58,7 @@
       "kunrei": "",
       "passport": "",
       "en": "kiss",
-      "it": "亲"
+      "it": "bacio"
     },
     {
       "orig": "密",
@@ -68,7 +68,7 @@
       "kunrei": "mitu",
       "passport": "mitsu",
       "en": "intimate",
-      "it": "密"
+      "it": "intimo"
     },
     {
       "orig": "逛",
@@ -78,7 +78,7 @@
       "kunrei": "",
       "passport": "",
       "en": "stroll",
-      "it": "逛"
+      "it": "gironzolare"
     },
     {
       "orig": "哥",
@@ -88,7 +88,7 @@
       "kunrei": "ka",
       "passport": "ka",
       "en": "bro",
-      "it": "哥"
+      "it": "fratello"
     },
     {
       "orig": "俩",
@@ -98,7 +98,7 @@
       "kunrei": "",
       "passport": "",
       "en": "pair",
-      "it": "俩"
+      "it": "coppia"
     }
   ],
   "yan": [
